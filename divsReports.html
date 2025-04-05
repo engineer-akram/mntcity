@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEPCO M&T City Circle Gujranwala | Division Portal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #003366;
+            --accent-color: #ffc107;
+            --light-bg: #f8f9fa;
+            --dark-text: #212529;
+            --light-text: #6c757d;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 2.5rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+        }
+        
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        .portal-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .portal-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .dropdown {
+            position: relative;
+            margin: 1.5rem 0;
+        }
+        
+        .dropdown-btn {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .dropdown-content {
+            display: none;
+            width: 100%;
+            background: white;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .dropdown-link {
+            display: block;
+            padding: 1rem;
+            text-decoration: none;
+            color: var(--dark-text);
+            transition: all 0.3s;
+            text-align: left;
+            font-weight: 500;
+        }
+        
+        .dropdown-link:hover {
+            background-color: rgba(0, 86, 179, 0.1);
+            color: var(--primary-color);
+        }
+        
+        footer {
+            background: var(--secondary-color);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 3rem;
+            border-radius: 10px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .active .dropdown-content {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1><i class="fas fa-city"></i> GEPCO M&T City Circle Gujranwala</h1>
+        <p>M&T Discrepancies Report</p>
+    </header>
+
+    <main class="container">
+        <div class="portal-card">
+            <h2>Division Information Portal</h2>
+            <p>Data Retrieval & Other information</p>
+            
+            <div class="dropdown" id="divisionDropdown">
+                <button class="dropdown-btn" onclick="toggleDropdown()">
+                    <span>Select Division To View Information</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="fDiv1.html" class="dropdown-link">GRW Division No 1</a>
+                    <a href="fDiv2.html" class="dropdown-link">GRW Division No 2</a>
+                    <a href="fDiv3.html" class="dropdown-link">GRW Division No 3</a>
+                    <a href="fDivKmk.html" class="dropdown-link">Division Kamoke</a>
+                    <a href="fDivNv.html" class="dropdown-link">Division N/Virkana</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p><i class="fas fa-shield-alt"></i> Authorized Personnel Only</p>
+        <p>&copy; 2025 GEPCO M&T City Circle Gujranwala. All Rights Reserved.</p>
+        <p>For technical support, contact <a href="mailto:eengineer.akram@gmail.com">support@gepco.com.pk</a></p>
+    </footer>
+
+    <script>
+        function toggleDropdown() {
+            document.getElementById('divisionDropdown').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
