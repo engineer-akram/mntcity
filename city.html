@@ -13,6 +13,8 @@
             --dark: #2a2d3e;
             --light: #f8f9fa;
             --success: #28a745;
+            --warning: #ffc107;
+            --info: #17a2b8;
         }
         
         * {
@@ -26,6 +28,7 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
             min-height: 100vh;
             color: var(--dark);
+            line-height: 1.6;
         }
         
         .container {
@@ -69,6 +72,7 @@
             opacity: 0.9;
             font-weight: 300;
             position: relative;
+            font-size: 1.1rem;
         }
         
         /* Section Styles */
@@ -94,10 +98,19 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(0, 86, 179, 0.1);
         }
         
         .section-title i {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            background: rgba(0, 86, 179, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         /* Card Grid - 2 items per row */
@@ -116,6 +129,8 @@
             border-top: 4px solid var(--primary);
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
         
         .card::before {
@@ -156,8 +171,8 @@
             font-size: 2rem;
             color: var(--primary);
             background: rgba(0, 123, 255, 0.1);
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -168,7 +183,14 @@
         .card:hover i {
             background: var(--primary);
             color: white;
-            transform: rotate(10deg) scale(1.1);
+            transform: scale(1.1);
+        }
+        
+        .card span {
+            font-size: 1.1rem;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
         }
         
         /* Feedback Form */
@@ -178,13 +200,18 @@
             padding: 2rem;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             margin-top: 2rem;
+            border-left: 5px solid var(--info);
         }
         
         .feedback-section h3 {
-            color: var(--primary);
+            color: var(--info);
             margin-bottom: 1.5rem;
             text-align: center;
             font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         
         .form-group {
@@ -195,6 +222,7 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
+            color: var(--dark);
         }
         
         .form-control {
@@ -218,7 +246,7 @@
         }
         
         .btn {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            background: linear-gradient(135deg, var(--info) 0%, var(--primary-light) 100%);
             color: white;
             border: none;
             padding: 12px 25px;
@@ -227,7 +255,10 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
         }
@@ -238,7 +269,7 @@
         }
         
         .btn-block {
-            display: block;
+            display: flex;
             width: 100%;
         }
         
@@ -255,10 +286,23 @@
         footer a {
             color: var(--primary);
             text-decoration: none;
+            font-weight: 500;
         }
         
         footer a:hover {
             text-decoration: underline;
+        }
+        
+        .copyright {
+            margin-bottom: 1.5rem;
+        }
+        
+        .disclaimer {
+            background: rgba(255, 193, 7, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--warning);
+            font-size: 0.85rem;
         }
         
         /* Responsive */
@@ -269,6 +313,10 @@
             
             .card-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
             }
         }
     </style>
@@ -284,29 +332,29 @@
     <main class="container">
         <!-- For M&T Use Section -->
         <section class="section">
-            <h2 class="section-title"><i class="fas fa-tools"></i> For M&T Use</h2>
+            <h2 class="section-title"><i class="fas fa-tachometer-alt"></i> For M&T Use</h2>
             <div class="card-grid">
                 <div class="card">
                     <a href="cityChecking.html">
-                        <i class="fas fa-file-upload"></i>
+                        <i class="fas fa-clipboard-list"></i>
                         <span>Submit Online Checking</span>
                     </a>
                 </div>
                 <div class="card">
                     <a href="cityCheckingView.html">
-                        <i class="fas fa-search"></i>
+                        <i class="fas fa-binoculars"></i>
                         <span>View Checking Status</span>
                     </a>
                 </div>
                 <div class="card">
                     <a href="cityActivity.html">
-                        <i class="fas fa-tasks"></i>
+                        <i class="fas fa-cogs"></i>
                         <span>M&T Misc. Activities</span>
                     </a>
                 </div>
                 <div class="card">
                     <a href="cityActProforma.html">
-                        <i class="fas fa-clipboard-check"></i>
+                        <i class="fas fa-file-signature"></i>
                         <span>M&T Test Check Proforma</span>
                     </a>
                 </div>
@@ -315,7 +363,7 @@
 
         <!-- For Operation Sub Divs/Divs/ROs Section -->
         <section class="section">
-            <h2 class="section-title"><i class="fas fa-network-wired"></i> For Operation Sub Divs/Divs/ROs</h2>
+            <h2 class="section-title"><i class="fas fa-sitemap"></i> For Operation Sub Divs/Divs/ROs</h2>
             <div class="card-grid">
                 <div class="card">
                     <a href="divs.html">
@@ -331,19 +379,19 @@
                 </div>
                 <div class="card">
                     <a href="divsReports.html">
-                        <i class="fas fa-file-alt"></i>
+                        <i class="fas fa-file-contract"></i>
                         <span>View M&T Checking Reports</span>
                     </a>
                 </div>
                 <div class="card">
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSfWCe6lzJb6SPvq9J01Zqx_wfe7ZaaftPl_FxRyIcXXZEXrGA/viewform?usp=header">
-                        <i class="fas fa-file-alt"></i>
+                        <i class="fas fa-file-export"></i>
                         <span>Online Data Submission of 3Phase Meter To Be Returned To M&T</span>
                     </a>
                 </div>
                 <div class="card">
                     <a href="https://docs.google.com/spreadsheets/d/1yMxF5wQk_Fsd-1qNU10Ayccuu9bosu-MvJwoGWTL_NY/edit?usp=sharing">
-                        <i class="fas fa-file-alt"></i>
+                        <i class="fas fa-file-excel"></i>
                         <span>Online M&T Result Sheet</span>
                     </a>
                 </div>
@@ -354,7 +402,7 @@
 
         <!-- Feedback Section -->
         <section class="feedback-section">
-            <h3><i class="fas fa-comment-dots"></i> Send Us Your Feedback</h3>
+            <h3><i class="fas fa-comments"></i> Send Us Your Feedback</h3>
             <form action="mailto:eengineer.akram@gmail.com" method="post" enctype="text/plain">
                 <div class="form-group">
                     <label for="name">Your Name</label>
@@ -376,7 +424,6 @@
     </main>
     
     <footer class="container">
-        
         <div class="copyright">
             <p>&copy; 2025 GEPCO M&T City Circle. All Rights Reserved.</p>
             <p>For Query/contact: <a href="mailto:eengineer.akram@gmail.com">support@mntCityCircle.com</a></p>
@@ -386,7 +433,6 @@
         <div class="disclaimer">
             <p><strong>Disclaimer:</strong> This website and its contents are for internal use only. Unauthorized access or distribution is strictly prohibited, nor any information thereof can be referenced in any context.</p>
         </div>
-        
     </footer>
 </body>
 </html>
