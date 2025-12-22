@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEPCO M&T City - For M&T Use</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0056b3;
+            --primary-light: #007bff;
+            --secondary: #ff6b35;
+            --dark: #2a2d3e;
+            --light: #f8f9fa;
+            --success: #28a745;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 30px rgba(0, 86, 179, 0.3);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        header p {
+            opacity: 0.9;
+            font-weight: 300;
+            position: relative;
+            font-size: 1.1rem;
+        }
+        
+        .back-link {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+        
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+        
+        /* Password Protection */
+        .password-protection {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem 2rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 6px solid var(--primary);
+        }
+        
+        .password-protection h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .password-protection p {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .password-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .password-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+        
+        .password-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+        }
+        
+        .password-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .password-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+        }
+        
+        .password-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .password-error {
+            color: #dc3545;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .password-error.active {
+            display: flex;
+        }
+        
+        .password-success {
+            color: var(--success);
+            margin-top: 15px;
+            font-size: 0.95rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .password-success.active {
+            display: flex;
+        }
+        
+        .login-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Main Content (Hidden until authenticated) */
+        .main-content {
+            display: none;
+        }
+        
+        .main-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Section Styles */
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--primary);
+        }
+        
+        .section-title {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(0, 86, 179, 0.1);
+        }
+        
+        .section-title i {
+            font-size: 1.3rem;
+            background: rgba(0, 86, 179, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Card Grid - 2 items per row */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .card a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            gap: 15px;
+            text-align: center;
+        }
+        
+        .card i {
+            font-size: 2rem;
+            color: var(--primary);
+            background: rgba(0, 123, 255, 0.1);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .card:hover i {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .card span {
+            font-size: 1.1rem;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+        
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            margin-bottom: 1.5rem;
+        }
+        
+        .disclaimer {
+            background: rgba(255, 193, 7, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--warning);
+            font-size: 0.85rem;
+        }
+        
+        /* Logout Button */
+        .logout-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .logout-btn:hover {
+            background: #dc3545;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .logout-btn.active {
+            display: flex;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .back-link {
+                position: relative;
+                left: 0;
+                top: 0;
+                margin-bottom: 15px;
+                display: inline-flex;
+            }
+            
+            header {
+                padding: 1.5rem;
+            }
+            
+            .password-protection {
+                padding: 2rem 1.5rem;
+            }
+            
+            .logout-btn {
+                top: 10px;
+                right: 10px;
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Logout Button -->
+    <button class="logout-btn" id="logoutBtn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+    </button>
+
+    <header>
+        <a href="index.html" class="back-link" id="backLink">
+            <i class="fas fa-arrow-left"></i> Back to Main Portal
+        </a>
+        <div class="container">
+            <h1>GEPCO M&T City Circle Gujranwala</h1>
+            <p>Metering & Testing Tools and Applications</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Password Protection Section -->
+        <div class="password-protection" id="passwordSection">
+            <div class="login-icon">
+                <i class="fas fa-tachometer-alt"></i>
+            </div>
+            <h2>M&T Section Access</h2>
+            <p>Please enter the M&T section password to access Metering & Testing tools.</p>
+            <div class="password-form">
+                <input type="password" class="password-input" id="passwordInput" 
+                       placeholder="Enter M&T section password" autocomplete="off">
+                <button class="password-btn" id="submitBtn" onclick="checkPassword()">
+                    <span id="btnText">Unlock M&T Tools</span>
+                    <i class="fas fa-key"></i>
+                </button>
+            </div>
+            <div class="password-error" id="passwordError">
+                <i class="fas fa-exclamation-circle"></i>
+                Incorrect password. Please try again.
+            </div>
+            <div class="password-success" id="passwordSuccess">
+                <i class="fas fa-check-circle"></i>
+                Access granted! Loading tools...
+            </div>
+        </div>
+        
+        <!-- Main Content (Hidden until authenticated) -->
+        <div class="main-content" id="mainContent">
+            <!-- For M&T Use Section -->
+            <section class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-tachometer-alt"></i> For M&T Use
+                </h2>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <a href="cityChecking.html">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>Physical Checking</span>
+                        </a>
+                    </div>
+                    
+                    <div class="card">
+                        <a href="cityCheckingView.html">
+                            <i class="fas fa-binoculars"></i>
+                            <span>View Physical Checking</span>
+                        </a>
+                    </div>
+                    
+                    <div class="card">
+                        <a href="cityCheckingViewDetail.html">
+                            <i class="fas fa-binoculars"></i>
+                            <span>View Detailed Physical Checking</span>
+                        </a>
+                    </div>
+                    
+                    <div class="card">
+                        <a href="cityActivity.html">
+                            <i class="fas fa-cogs"></i>
+                            <span>M&T Misc. Activities</span>
+                        </a>
+                    </div>
+                    
+                    <div class="card">
+                        <a href="cityActProforma.html">
+                            <i class="fas fa-file-signature"></i>
+                            <span>M&T Test Check Proforma</span>
+                        </a>
+                    </div>
+                    
+                    <div class="card">
+                        <a href="dtWise.html">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>Physical Checking(Date Wise)</span>
+                        </a>
+                    </div>
+                    
+                    <div class="card">
+                        <a href="sdWise.html">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>Physical Checking(S/Div Wise)</span>
+                        </a>
+                    </div>
+                    
+                    <div class="card">
+                        <a href="kindIndustry.html">
+                            <i class="fas fa-binoculars"></i>
+                            <span>Physical Checking (Type of Industry)</span>
+                        </a>
+                    </div>
+                    
+                    <div class="card">
+                        <a href="accuracy.html">
+                            <i class="fas fa-cogs"></i>
+                            <span>Physical Checking (Accuracy/Disc)</span>
+                        </a>
+                    </div>
+                    
+                    <div class="card">
+                        <a href="individal.html">
+                            <i class="fas fa-file-signature"></i>
+                            <span>Physical Checking (Individual Progress)</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Information Section -->
+            <section class="section" style="border-left: 5px solid var(--info);">
+                <h2 class="section-title">
+                    <i class="fas fa-info-circle"></i> About M&T Section
+                </h2>
+                <div style="line-height: 1.8;">
+                    <p>The M&T (Metering & Testing) section provides specialized tools for meter testing, physical checking, and monitoring activities within GEPCO City Circle Gujranwala.</p>
+                    <ul style="margin-top: 15px; padding-left: 20px;">
+                        <li><strong>Physical Checking:</strong> Tools for on-site meter inspections and verifications</li>
+                        <li><strong>Activity Monitoring:</strong> Track and manage M&T operations and progress</li>
+                        <li><strong>Report Generation:</strong> Create detailed reports for analysis and compliance</li>
+                        <li><strong>Performance Tracking:</strong> Monitor individual and team performance metrics</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><em>For assistance or technical issues, please contact the M&T department.</em></p>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer class="container">
+        <div class="copyright">
+            <p>&copy; 2025 GEPCO M&T City Circle. All Rights Reserved.</p>
+            <p>For Query/contact: <a href="mailto:eengineer.akram@gmail.com">support@mntCityCircle.com</a></p>
+            <p>Site created and maintained by Muhammad Akram, Additional Manager GEPCO</p>
+        </div>
+        
+        <div class="disclaimer">
+            <p><strong>Disclaimer:</strong> This website and its contents are for internal use only. Unauthorized access or distribution is strictly prohibited, nor any information thereof can be referenced in any context.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Configuration
+        const CONFIG = {
+            // SHA-256 hash of the password "mnt123"
+            hashedPassword: '2ab6a1411c515c370098b67fd7ab909079c3bdf15062a5b784229ddd0bda7555',
+            sessionKey: 'gepco_mnt_authenticated',
+            sessionExpiry: 2 // hours
+        };
+        
+        // DOM Elements
+        const passwordSection = document.getElementById('passwordSection');
+        const mainContent = document.getElementById('mainContent');
+        const passwordInput = document.getElementById('passwordInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const passwordError = document.getElementById('passwordError');
+        const passwordSuccess = document.getElementById('passwordSuccess');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const backLink = document.getElementById('backLink');
+        const btnText = document.getElementById('btnText');
+        
+        // Initialize page
+        function initialize() {
+            // Check if user is already authenticated
+            const session = getSession();
+            if (session && session.authenticated) {
+                showMainContent();
+            } else {
+                showPasswordSection();
+            }
+            
+            // Enter key support
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+            
+            // Clear error on typing
+            passwordInput.addEventListener('input', function() {
+                passwordError.classList.remove('active');
+            });
+        }
+        
+        // Hash password using SHA-256
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hash = await crypto.subtle.digest('SHA-256', data);
+            return Array.from(new Uint8Array(hash))
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('');
+        }
+        
+        // Check password
+        async function checkPassword() {
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            btnText.innerHTML = '<span class="spinner"></span> Verifying...';
+            
+            // Hash the input password
+            const hashedInput = await hashPassword(passwordInput.value);
+            
+            // Simulate network delay
+            await new Promise(resolve => setTimeout(resolve, 800));
+            
+            // Check password
+            if (hashedInput === CONFIG.hashedPassword) {
+                // Correct password
+                passwordError.classList.remove('active');
+                passwordSuccess.classList.add('active');
+                
+                // Create session
+                createSession();
+                
+                // Show main content after delay
+                setTimeout(() => {
+                    showMainContent();
+                    passwordSuccess.classList.remove('active');
+                    passwordInput.value = '';
+                }, 1200);
+            } else {
+                // Wrong password
+                passwordError.classList.add('active');
+                passwordInput.value = '';
+                passwordInput.focus();
+                shakeElement(passwordSection);
+            }
+            
+            // Reset button
+            submitBtn.disabled = false;
+            btnText.textContent = 'Unlock M&T Tools';
+        }
+        
+        // Create session
+        function createSession() {
+            const session = {
+                authenticated: true,
+                timestamp: Date.now(),
+                expiry: CONFIG.sessionExpiry * 60 * 60 * 1000 // Convert hours to milliseconds
+            };
+            localStorage.setItem(CONFIG.sessionKey, JSON.stringify(session));
+        }
+        
+        // Get session
+        function getSession() {
+            const sessionStr = localStorage.getItem(CONFIG.sessionKey);
+            if (!sessionStr) return null;
+            
+            const session = JSON.parse(sessionStr);
+            const now = Date.now();
+            
+            // Check if session is expired
+            if (now - session.timestamp > session.expiry) {
+                localStorage.removeItem(CONFIG.sessionKey);
+                return null;
+            }
+            
+            return session;
+        }
+        
+        // Show main content
+        function showMainContent() {
+            passwordSection.style.display = 'none';
+            mainContent.classList.add('active');
+            logoutBtn.classList.add('active');
+            backLink.style.display = 'flex';
+            
+            // Animate cards
+            animateCards();
+        }
+        
+        // Show password section
+        function showPasswordSection() {
+            passwordSection.style.display = 'block';
+            mainContent.classList.remove('active');
+            logoutBtn.classList.remove('active');
+            backLink.style.display = 'none';
+            passwordInput.focus();
+        }
+        
+        // Logout
+        function logout() {
+            localStorage.removeItem(CONFIG.sessionKey);
+            showPasswordSection();
+        }
+        
+        // Shake animation for wrong password
+        function shakeElement(element) {
+            element.style.animation = 'none';
+            setTimeout(() => {
+                element.style.animation = 'shake 0.5s ease-in-out';
+            }, 10);
+            
+            // Remove animation after it completes
+            setTimeout(() => {
+                element.style.animation = '';
+            }, 500);
+        }
+        
+        // Add shake animation to CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Animate cards
+        function animateCards() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        }
+        
+        // Check session expiry periodically
+        setInterval(() => {
+            const session = getSession();
+            if (!session) {
+                showPasswordSection();
+            }
+        }, 60000); // Check every minute
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initialize);
+    </script>
+</body>
+</html>
